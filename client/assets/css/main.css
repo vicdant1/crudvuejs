@@ -42,10 +42,46 @@ body{
 }
 
 .form-box button:hover{
-    transform: scale(.99);
+    transform: scale(.99);    
+    background-color: #00cf5d;
 }
 
 .form-box span{
     color: #00af4f;
     font-weight: bold;
+}
+
+/* Table */
+
+table{
+    width: 100%;
+    text-align: center;
+    color: #ebebeb;
+    font-size: 1.2rem;
+    margin: 0 auto !important;
+}
+
+table td{
+    padding: 10px 0;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
