@@ -24,14 +24,22 @@ app.get('/api/get', (req, res) => {
     })
 })
 
-app.post('/api/insert', (req, res)=>{
-    sql = `INSERT INTO movie_reviews (movie_name, movie_review) VALUES (${req.body.movieName}, ${req.body.movieReview})`;
 
+// check if this is right and try to fix it (/api/insert -> maybe body-parser could break...)
+
+app.post('/api/insert', (req, res)=>{
+    const sql = `INSERT INTO movie_reviews (movie_name, movie_review) VALUES ('${req.body.movieName}', '${req.body.movieReview}')`;
     db.query(sql, (err, result) => {
         res.send(result)
     });
-
 });
+
+app.post('/api/delete/:id', (req, res) => {
+    const sql = `DELETE FROM movie_reviews WHERE Id = ${req.params.id}`;
+    db.query(sql, (err, result) => {
+        res.send(result);
+    })
+})
 
 
 app.listen(PORT, () => {
