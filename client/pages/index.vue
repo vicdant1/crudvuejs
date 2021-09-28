@@ -28,12 +28,22 @@
           
           <tbody>
             <tr v-for="item in movies" :key="item._id">
-              <td>#{{item.Id}}</td>
+              <td>#{{item.id}}</td>
               <td>{{item.movie_name}}</td>
               <td>{{item.movie_review}}</td>
               <td class="">
-                <div class="btn btn-primary btn-actions"><i class="fas fa-edit"></i></div>
-                <div class="btn btn-danger btn-actions" @click="deleteData(item.Id)"><i class="fas fa-trash-alt"></i></div>
+                <div class="btn btn-primary btn-actions" v-b-modal="String(item.id)"><i class="fas fa-edit"></i></div>
+                <b-modal :id="String(item.id)" title="bootstrap vue"  @ok="editData(item.id)">
+                    <template #modal-title>
+                      <i class="fas fa-edit"></i> #{{item.id}} - {{item.movie_name}} 
+                    </template>
+                    <div>
+                      <b-form-input type="text" name="nameEdit" id="nameEdit" :value="item.movie_name"></b-form-input>
+                      <b-form-input class="mt-3" type="text" name="reviewEdit" id="reviewEdit" :value="item.movie_review"></b-form-input>
+                    </div>
+                </b-modal>
+
+                <div class="btn btn-danger btn-actions" @click="deleteData(item.id)"><i class="fas fa-trash-alt"></i></div>
               </td>
             </tr>
           </tbody>
@@ -51,13 +61,15 @@ export default {
   - mensagem de confirmação - notificação p/ exclusão edição adição  (fazer com alert do bootstrap);
   - fazer suavização de transições;
   - fazer com que o enter funcione para a submissão do form (onSubmit form javascript);
-  -  
+  - estudar como fazer flash messages no nodejs
+  - add tooltip na palavra crud explicando quais são minhas intenções com o projeto
+  - add novos campos (slider para nota)/duração/
   */
 
   data(){
     return{
       baseURL: 'http://localhost:3001/api',
-      movies: []
+      movies: [],
     }
   },
   methods: {
@@ -82,6 +94,12 @@ export default {
       document.getElementById('movieName').value = '';
       document.getElementById('movieReview').value = '';
     },
+    async editData(id){
+      const nameEdit = document.querySelector('#nameEdit').value;
+      const reviewEdit = document.querySelector('#reviewEdit').value;
+      await this.$axios.$post(`${this.baseURL}/edit/${id}`, {nameEdit, reviewEdit});
+      this.fetchData();
+    }
 
   },
   mounted() {
